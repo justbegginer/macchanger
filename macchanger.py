@@ -18,9 +18,9 @@ class operations:
 
     def change_Mac(self):
         first_mac = return_Mac()
-        subprocess.call("ifconfig eth0 down", shell=True)
-        subprocess.call("ifconfig eth0 hw ether " + random_Mac(), shell=True)
-        subprocess.call("ifconfig eth0 up", shell=True)
+        subprocess.call(f"ifconfig {interface} down", shell=True)
+        subprocess.call(f"ifconfig {interface} hw ether " + random_Mac(), shell=True)
+        subprocess.call(f"ifconfig {interface}", shell=True)
         last_mac = return_Mac()
         return self.change_Mac() if last_mac == first_mac else 0
         # TODO if we have a error that mac_addres is incorrect the programm doesn't change mac and first_mac=last_mac
@@ -36,7 +36,7 @@ def random_Mac():
 
 
 def return_Mac():
-    ifconfig = str(subprocess.check_output("ifconfig eth0", shell=True))
+    ifconfig = str(subprocess.check_output("ifconfig "+interface, shell=True))
     part = ifconfig[ifconfig.index("ether") + 6:]  # mistype , subprocess.checkoutput() result is not a string
     mac_adress = ""
     for i in part:
